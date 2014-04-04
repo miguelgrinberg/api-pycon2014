@@ -81,12 +81,12 @@ class TestAPI(unittest.TestCase):
         self.assertTrue(json['url'] == david_url)
 
         # create bad
-        with self.assertRaises(BadRequest):
-            self.client.post('/api/v1.0/students/', data={})
+        self.assertRaises(BadRequest, lambda:
+            self.client.post('/api/v1.0/students/', data={}))
 
-        with self.assertRaises(ValidationError):
+        self.assertRaises(ValidationError, lambda:
             self.client.post('/api/v1.0/students/',
-                             data={'not-name': 'david'})
+                             data={'not-name': 'david'}))
 
         # modify
         rv, json = self.client.put(david_url, data={'name': 'david2'})
@@ -146,11 +146,11 @@ class TestAPI(unittest.TestCase):
         self.assertTrue(json['url'] == lit_url)
 
         # create bad
-        with self.assertRaises(BadRequest):
-            self.client.post('/api/v1.0/classes/', data={})
+        self.assertRaises(BadRequest, lambda: 
+            self.client.post('/api/v1.0/classes/', data={}))
 
-        with self.assertRaises(ValidationError):
-            self.client.post('/api/v1.0/classes/', data={'not-name': 'lit'})
+        self.assertRaises(ValidationError, lambda:
+            self.client.post('/api/v1.0/classes/', data={'not-name': 'lit'}))
 
         # modify
         rv, json = self.client.put(lit_url, data={'name': 'lit2'})
@@ -236,25 +236,25 @@ class TestAPI(unittest.TestCase):
         self.assertTrue(len(json['urls']) == 3)
 
         # bad registrations
-        with self.assertRaises(BadRequest):
-            self.client.post('/api/v1.0/registrations/', data={})
+        self.assertRaises(BadRequest, lambda:
+            self.client.post('/api/v1.0/registrations/', data={}))
 
-        with self.assertRaises(ValidationError):
+        self.assertRaises(ValidationError, lambda:
             self.client.post('/api/v1.0/registrations/',
-                             data={'student': david_url})
+                             data={'student': david_url}))
 
-        with self.assertRaises(ValidationError):
+        self.assertRaises(ValidationError, lambda:
             self.client.post('/api/v1.0/registrations/',
-                             data={'class': algebra_url})
+                             data={'class': algebra_url}))
 
-        with self.assertRaises(ValidationError):
+        self.assertRaises(ValidationError, lambda:
             self.client.post('/api/v1.0/registrations/',
-                             data={'student': david_url, 'class': 'bad-url'})
+                             data={'student': david_url, 'class': 'bad-url'}))
 
-        with self.assertRaises(ValidationError):
+        self.assertRaises(ValidationError, lambda:
             self.client.post('/api/v1.0/registrations/',
                              data={'student': david_url,
-                                   'class': algebra_url + '1'})
+                                   'class': algebra_url + '1'}))
         db.session.remove()
 
         # get classes from each student

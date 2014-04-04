@@ -1,6 +1,8 @@
 Writing RESTful Web Services with Flask
 =======================================
 
+[![Build Status](https://travis-ci.org/miguelgrinberg/api-pycon2014.png?branch=master)](https://travis-ci.org/miguelgrinberg/api-pycon2014)
+
 This repository contains a fully working API project that utilizes the techniques that I discussed in my PyCon 2014 talk on building beautiful APIs with Flask.
 
 The API in this example implements a "students and classes" system and demonstrates RESTful principles, CRUD operations, error handling, user authentication, pagination, rate limiting and HTTP caching controls.
