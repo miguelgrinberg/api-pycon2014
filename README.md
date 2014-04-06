@@ -88,9 +88,9 @@ API Documentation
 
 The API supported by this application contains three top-level resources:
 
-- **/api/v1.0/students/**: The collection of students.
-- **/api/v1.0/classes/**: The collection of classes.
-- **/api/v1.0/registrations/**: The collection of student/class registrations.
+- `/api/v1.0/students/`: The collection of students.
+- `/api/v1.0/classes/`: The collection of classes.
+- `/api/v1.0/registrations/`: The collection of student/class registrations.
 
 All other resource URLs are to be discovered from the responses returned from the above three.
 

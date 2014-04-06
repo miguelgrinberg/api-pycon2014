@@ -202,7 +202,7 @@ class TestAPI(unittest.TestCase):
         self.assertTrue(rv.status_code == 201)
         lit_url = rv.headers['Location']
 
-        # register students to a classes
+        # register students to classes
         rv, json = self.client.post('/api/v1.0/registrations/',
                                     data={'student': susan_url,
                                           'class': algebra_url})
@@ -308,6 +308,15 @@ class TestAPI(unittest.TestCase):
         self.assertFalse(david_in_algebra_url in json['urls'])
         self.assertTrue(len(json['urls']) == 1)
 
+        # delete student
+        rv, json = self.client.delete(susan_url)
+        self.assertTrue(rv.status_code == 200)
+
+        # get collection
+        rv, json = self.client.get('/api/v1.0/registrations/')
+        self.assertTrue(rv.status_code == 200)
+        self.assertTrue(len(json['urls']) == 0)
+        
     def test_rate_limits(self):
         self.app.config['USE_RATE_LIMITS'] = True
 

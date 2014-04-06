@@ -48,7 +48,7 @@ def rate_limit(limit, per, scope_func=lambda: request.remote_addr):
     return decorator
 
 
-def paginate(max_per_page=50):
+def paginate(max_per_page=10):
     def decorator(f):
         @functools.wraps(f)
         def wrapped(*args, **kwargs):
@@ -110,6 +110,7 @@ def etag(f):
         rv = f(*args, **kwargs)
         rv = make_response(rv)
         etag = '"' + hashlib.md5(rv.get_data()).hexdigest() + '"'
+        rv.headers['ETag'] = etag
         if_match = request.headers.get('If-Match')
         if_none_match = request.headers.get('If-None-Match')
         if if_match:
@@ -120,6 +121,5 @@ def etag(f):
             etag_list = [tag.strip() for tag in if_none_match.split(',')]
             if etag in etag_list or '*' in etag_list:
                 rv = not_modified()
-        rv.headers['ETag'] = etag
         return rv
     return wrapped
