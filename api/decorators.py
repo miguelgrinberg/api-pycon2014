@@ -15,6 +15,8 @@ def json(f):
             rv, status_or_headers, headers = rv + (None,) * (3 - len(rv))
         if isinstance(status_or_headers, (dict, list)):
             headers, status_or_headers = status_or_headers, None
+        if not isinstance(rv, dict):
+            rv = rv.to_json()
         rv = jsonify(rv)
         if status_or_headers is not None:
             rv.status_code = status_or_headers
@@ -91,7 +93,7 @@ def cache_control(*directives):
         def wrapped(*args, **kwargs):
             rv = f(*args, **kwargs)
             rv = make_response(rv)
-            rv.headers.extend({'Cache-Control': ', '.join(directives)})
+            rv.headers['Cache-Control'] =', '.join(directives)
             return rv
         return wrapped
     return decorator

@@ -15,7 +15,7 @@ def get_registrations():
 @etag
 @json
 def get_registration(student_id, class_id):
-    return Registration.query.get_or_404((student_id, class_id)).to_json()
+    return Registration.query.get_or_404((student_id, class_id))
 
 
 @api.route('/registrations/', methods=['POST'])

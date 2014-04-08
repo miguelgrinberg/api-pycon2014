@@ -15,7 +15,7 @@ def get_classes():
 @etag
 @json
 def get_class(id):
-    return Class.query.get_or_404(id).to_json()
+    return Class.query.get_or_404(id)
 
 
 @api.route('/classes/<int:id>/registrations/', methods=['GET'])

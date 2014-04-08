@@ -15,7 +15,7 @@ def get_students():
 @etag
 @json
 def get_student(id):
-    return Student.query.get_or_404(id).to_json()
+    return Student.query.get_or_404(id)
 
 
 @api.route('/students/<int:id>/registrations/', methods=['GET'])
