@@ -31,5 +31,5 @@ def match_url(url, method=None):
 def args_from_url(url, endpoint):
     r = match_url(url, 'GET')
     if r[0] != endpoint:
-        return ValidationError('Invalid resource')
+        return NotFound()
     return r[1]

@@ -4,7 +4,6 @@ from werkzeug.exceptions import NotFound
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import url_for, current_app
 from flask.ext.sqlalchemy import SQLAlchemy
-from sqlalchemy.ext.associationproxy import association_proxy
 from .helpers import args_from_url
 from .errors import ValidationError
 
@@ -36,18 +35,14 @@ class Registration(db.Model):
     def from_json(self, json):
         try:
             student_id = args_from_url(json['student'], 'api.get_student')['id']
+            self.student = Student.query.get_or_404(student_id)
         except (KeyError, NotFound):
             raise ValidationError('Invalid student URL')
         try:
             class_id = args_from_url(json['class'], 'api.get_class')['id']
+            self.class_ = Class.query.get_or_404(class_id)
         except (KeyError, NotFound):
             raise ValidationError('Invalid class URL')
-        self.student = Student.query.get(student_id)
-        self.class_ = Class.query.get(class_id)
-        if self.student is None:
-            raise ValidationError('Invalid student')
-        if self.class_ is None:
-            raise ValidationError('Invalid class')
         return self
 
 
