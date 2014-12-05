@@ -2,10 +2,6 @@ from base64 import b64encode
 from werkzeug.exceptions import HTTPException
 import json
 
-class ExceptionResponse():
-    def __init__(self, exception):
-        self.description = exception.description
-        self.status_code = exception.code
 
 class TestClient():
     def __init__(self, app, username, password):
@@ -22,7 +18,7 @@ class TestClient():
             data = json.dumps(data)
 
         with self.app.test_request_context(url, method=method, data=data,
-                                       headers=headers):
+                                           headers=headers):
             try:
                 rv = self.app.preprocess_request()
                 if rv is None:
