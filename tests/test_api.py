@@ -80,9 +80,9 @@ class TestAPI(unittest.TestCase):
         self.assertTrue(json['name'] == 'david')
         self.assertTrue(json['url'] == david_url)
 
-        # create bad
-        self.assertRaises(BadRequest, lambda:
-            self.client.post('/api/v1.0/students/', data={}))
+        # create bad request
+        rv,json = self.client.post('/api/v1.0/students/', data={})
+        self.assertTrue(rv.status_code == 400)
 
         self.assertRaises(ValidationError, lambda:
             self.client.post('/api/v1.0/students/',
@@ -146,8 +146,8 @@ class TestAPI(unittest.TestCase):
         self.assertTrue(json['url'] == lit_url)
 
         # create bad
-        self.assertRaises(BadRequest, lambda: 
-            self.client.post('/api/v1.0/classes/', data={}))
+        rv,json = self.client.post('/api/v1.0/classes/', data={})
+        self.assertTrue(rv.status_code == 400)
 
         self.assertRaises(ValidationError, lambda:
             self.client.post('/api/v1.0/classes/', data={'not-name': 'lit'}))
@@ -236,8 +236,8 @@ class TestAPI(unittest.TestCase):
         self.assertTrue(len(json['urls']) == 3)
 
         # bad registrations
-        self.assertRaises(BadRequest, lambda:
-            self.client.post('/api/v1.0/registrations/', data={}))
+        rv,json = self.client.post('/api/v1.0/registrations/', data={})
+        self.assertTrue(rv.status_code == 400)
 
         self.assertRaises(ValidationError, lambda:
             self.client.post('/api/v1.0/registrations/',
